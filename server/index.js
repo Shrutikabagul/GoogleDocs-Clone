@@ -2,13 +2,14 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import path from 'path';
 import Connection from './database/db.js';
 import { getDocument, updateDocument } from './controller/document-controller.js';
 
 const PORT = process.env.PORT || 9000;
 const app = express();
 
-// Allow CORS from http://localhost:3000
+// Allow CORS from your client URL
 app.use(cors({
     origin: 'https://googledocs-clone-zljk.onrender.com',
     methods: ['GET', 'POST'],
@@ -23,13 +24,7 @@ const io = new Server(server, {
     },
 });
 
-// Establish database connection
 Connection();
-
-// Define a route for the root URL
-app.get('/', (req, res) => {
-    res.send('Welcome to the Google Docs Clone API!');
-});
 
 io.on('connection', socket => {
     console.log('New client connected');
@@ -51,6 +46,14 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
+});
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// The "catchall" handler: for any request that doesn't match one above, send back index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 server.listen(PORT, () => {
