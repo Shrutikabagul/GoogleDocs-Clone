@@ -23,7 +23,13 @@ const io = new Server(server, {
     },
 });
 
+// Establish database connection
 Connection();
+
+// Define a route for the root URL
+app.get('/', (req, res) => {
+    res.send('Welcome to the Google Docs Clone API!');
+});
 
 io.on('connection', socket => {
     console.log('New client connected');
