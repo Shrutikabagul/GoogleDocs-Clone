@@ -10,7 +10,7 @@ const app = express();
 
 // Allow CORS from http://localhost:3000
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://googledocs-clone-zljk.onrender.com',
     methods: ['GET', 'POST'],
 }));
 
@@ -18,7 +18,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'https://googledocs-clone-zljk.onrender.com',
         methods: ['GET', 'POST'],
     },
 });
