@@ -3,6 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import Connection from './database/db.js';
 import { getDocument, updateDocument } from './controller/document-controller.js';
 
@@ -47,6 +48,10 @@ io.on('connection', socket => {
         console.log('Client disconnected');
     });
 });
+
+// Define __dirname for ES module scope
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
