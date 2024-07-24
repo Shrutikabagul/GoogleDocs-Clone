@@ -59,7 +59,7 @@ app.use(express.static(buildPath));
 
 // The "catchall" handler: for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
-    const filePath = path.join(buildPath, 'index.html');
+    const filePath = path.join(buildPath, 'index.js');
     console.log(`Serving file: ${filePath}`);
     res.sendFile(filePath, (err) => {
         if (err) {
