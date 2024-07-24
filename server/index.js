@@ -1,6 +1,5 @@
 import express from 'express';
 import http from 'http';
-
 import { Server } from 'socket.io';
 import cors from 'cors';
 import path from 'path';
@@ -59,7 +58,14 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // The "catchall" handler: for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    const filePath = path.join(__dirname, 'client/build', 'index.html');
+    console.log(`Serving file: ${filePath}`);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Error serving index.html:', err);
+            res.status(404).send('Not Found');
+        }
+    });
 });
 
 server.listen(PORT, () => {
