@@ -54,11 +54,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+const buildPath = path.join(__dirname, 'client/build');
+app.use(express.static(buildPath));
 
 // The "catchall" handler: for any request that doesn't match one above, send back index.html
 app.get('*', (req, res) => {
-    const filePath = path.join(__dirname, 'client/build', 'index.html');
+    const filePath = path.join(buildPath, 'index.html');
     console.log(`Serving file: ${filePath}`);
     res.sendFile(filePath, (err) => {
         if (err) {
